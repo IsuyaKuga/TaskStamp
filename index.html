@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>Task Timer Ver. 0.1</title>
+<script>
+function time(){
+  var now = new Date();
+  document.getElementById("time").innerHTML = now.toLocaleTimeString();
+}
+function record(){
+  var time = document.getElementById("time").innerHTML; 
+  var text = document.getElementById("text").value;
+  var list = document.getElementById("task");
+  list.insertAdjacentHTML('afterbegin', '<li>'+time+' '+text+'</li>');
+  document.getElementById("text").value = '';
+}
+function handleBtnKeyPress(event) {
+  if (event.key === "Enter") {
+    record();
+  }
+}
+setInterval('time()',1000);
+</script>
+</head>
+<body>
+  <h1 id="time"></h1>
+  <button type=button onclick="record()">記録</button>
+  <input id="text" type="text" onkeydown="handleBtnKeyPress(event)" >
+<ul id="task">
+</ul>
+</body>
+</html>
