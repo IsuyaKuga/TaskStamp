@@ -4,15 +4,31 @@
 <meta charset="UTF-8">
 <title>Task Timer Ver. 0.1</title>
 <script>
+var storage = localStorage;
+
 function time(){
   var now = new Date();
   document.getElementById("time").innerHTML = now.toLocaleTimeString();
 }
+
 function record(){
   var time = document.getElementById("time").innerHTML; 
   var text = document.getElementById("text").value;
   var list = document.getElementById("task");
-  list.insertAdjacentHTML('afterbegin', '<li>'+time+' '+text+'</li>');
+  var string ='<li>'+time+' '+text+'</li>';
+
+  var arr = storage.getItem('list');
+  if (arr === null) {
+    arr = [];
+  } else {
+    arr = JSON.parse(arr);
+  }
+
+  arr.unshift(string);
+  list.innerHTML=arr.join('\n');
+
+  storage.setItem('list', JSON.stringify(arr));
+  
   document.getElementById("text").value = '';
 }
 function handleBtnKeyPress(event) {
