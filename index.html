@@ -11,6 +11,17 @@ function time(){
   document.getElementById("time").innerHTML = now.toLocaleTimeString();
 }
 
+function show() {
+  var taskContainer = document.getElementById("task");
+  var arr = storage.getItem('list');
+  if (arr === null) {
+    arr = [];
+  } else {
+    arr = JSON.parse(arr);
+  }
+  taskContainer.innerHTML=arr.join('\n');
+}
+
 function record(){
   var time = document.getElementById("time").innerHTML; 
   var text = document.getElementById("text").value;
@@ -36,7 +47,11 @@ function handleBtnKeyPress(event) {
     record();
   }
 }
-setInterval('time()',1000);
+window.onload = function () {
+  show();
+  time();
+  setInterval('time()',1000);
+};
 </script>
 </head>
 <body>
