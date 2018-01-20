@@ -53,12 +53,65 @@ window.onload = function () {
   setInterval('time()',1000);
 };
 </script>
+<style>
+body {
+  width: 100%;
+  background-color: #FFFFFF;
+  margin: 0;
+  border: 0;
+  padding: 0;
+}
+
+h1 {
+  width: 100%;
+  margin: 0;
+  border: 0;
+  padding: 0;
+  color: #000000;
+}
+
+button {
+  width: 100%;
+}
+
+input {
+  width: 100%;
+}
+
+ul {
+  width: 100%;
+  margin: 0.5em 0em 0em 0em;
+  padding: 0;
+  border: 0;
+}
+
+ul li {
+  width: 100%;
+  color: white;
+  background: #81d0cb;
+  line-height: 1.5;
+  padding: 0.5em 0.5em 0.5em 2em;
+  border-bottom: 2px solid white;
+  margin: 0;
+  list-style-type: none!important;
+  font-weight: bold; /*好みで太字に*/
+}
+
+ul li:before {/*疑似要素*/
+  font-family: FontAwesome;
+  content: "\02710";
+  position: absolute;
+  left : 0.5em; /*左端からのアイコンまでの距離*/
+  color: white; /*アイコン色*/
+}
+</style>
 </head>
 <body>
   <h1 id="time"></h1>
-  <button type=button onclick="record()">記録</button>
-  <input id="text" type="text" onkeypress="handleBtnKeyPress(event)" >
-<ul id="task">
-</ul>
+  <div>
+    <button type=button onclick="record()">記録</button>
+    <input id="text" type="text" onkeypress="handleBtnKeyPress(event)" >
+  </div>
+  <ul id="task"></ul>
 </body>
 </html>
