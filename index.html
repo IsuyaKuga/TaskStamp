@@ -26,7 +26,7 @@ function record(){
   var time = document.getElementById("time").innerHTML; 
   var text = document.getElementById("text").value;
   var list = document.getElementById("task");
-  var string ='<li>'+time+' '+text+'</li>';
+  var string ='<li><time>'+time+'</time>'+text+'</li>';
 
   var arr = storage.getItem('list');
   if (arr === null) {
@@ -41,6 +41,12 @@ function record(){
   storage.setItem('list', JSON.stringify(arr));
   
   document.getElementById("text").value = '';
+}
+function clearStorage(){
+  var list = document.getElementById("task");
+
+  storage.clear();
+  list.innerHTML='';
 }
 function handleBtnKeyPress(event) {
   if (event.key === "Enter") {
@@ -62,31 +68,49 @@ body {
   padding: 0;
 }
 
+.main {
+  width: 100%;
+}
+
 h1 {
   width: 100%;
   margin: 0;
   border: 0;
   padding: 0;
   color: #000000;
+  text-align: center;
+  line-height: 1.5;
+}
+
+#buttons {
+  display: flex
 }
 
 button {
-  width: 100%;
+  width: 50%;
+  display: inline;
+  flex: 1;
 }
 
 input {
   width: 100%;
+  display: block;
+  box-sizing: border-box;
+}
+
+time {
+  font-size: 0.9em;
+  padding-right: 0.3em;
 }
 
 ul {
-  width: 100%;
   margin: 0.5em 0em 0em 0em;
   padding: 0;
   border: 0;
+  display: block;
 }
 
 ul li {
-  width: 100%;
   color: white;
   background: #81d0cb;
   line-height: 1.5;
@@ -95,6 +119,7 @@ ul li {
   margin: 0;
   list-style-type: none!important;
   font-weight: bold; /*好みで太字に*/
+  display: block;
 }
 
 ul li:before {/*疑似要素*/
@@ -108,10 +133,13 @@ ul li:before {/*疑似要素*/
 </head>
 <body>
   <h1 id="time"></h1>
-  <div>
-    <button type=button onclick="record()">記録</button>
+  <div id="main">
+    <div id="buttons">
+      <button type=button id="record" onclick="record()">記録</button>
+      <button type=button id="clear" onclick="clearStorage()">全削除</button>
+    </div>
     <input id="text" type="text" onkeypress="handleBtnKeyPress(event)" >
+    <ul id="task"></ul>
   </div>
-  <ul id="task"></ul>
 </body>
 </html>
