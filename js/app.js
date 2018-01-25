@@ -1,59 +1,75 @@
 window.addEventListener('DOMContentLoaded', function() {
   'use strict';
-  show();
+  let time = ()=>document.getElementById("time").innerHTML = (new Date).toLocaleTimeString();
   time();
-  setInterval('time()',1000);
+  setInterval(time,1000);
+  var taskController = new TaskController();
 });
 
-var storage = localStorage;
-
-function time(){
-  var now = new Date();
-  document.getElementById("time").innerHTML = now.toLocaleTimeString();
-}
-
-function show() {
-  var taskContainer = document.getElementById("task");
-  var arr = storage.getItem('list');
-  if (arr === null) {
-    arr = [];
-  } else {
-    arr = JSON.parse(arr);
-  }
-  taskContainer.innerHTML=arr.join('\n');
-}
-
-function record(){
-  var time = document.getElementById("time").innerHTML; 
-  var text = document.getElementById("text").value;
-  var list = document.getElementById("task");
-  var string ='<li><time>'+time+'</time>'+text+'</li>';
-
-  var arr = storage.getItem('list');
-  if (arr === null) {
-    arr = [];
-  } else {
-    arr = JSON.parse(arr);
+class TaskStrage {
+  constructor() {
+    this.strage = localStorage;
+    let tasks = this.strage.getItem('tasks');
+    this.tasks = tasks === null ? {count: 0, taskArray: []} : JSON.parse(tasks);
   }
 
-  arr.unshift(string);
-  list.innerHTML=arr.join('\n');
+  addTask(args) {
+    var time = args.time;
+    content = args.content;
+    var count = this.tasks.count++;
+    this.tasks.taskArray.unshift({id: count, time: time, content: content});
+    this.strage.setItem('tasks', JSON.stringify(this.tasks));
+  }
 
-  storage.setItem('list', JSON.stringify(arr));
-  
-  document.getElementById("text").value = '';
-}
-function clearStorage(){
-  var list = document.getElementById("task");
-
-  storage.clear();
-  list.innerHTML='';
-}
-function handleBtnKeyPress(event) {
-  if (event.key === "Enter") {
-    record();
+  clearAll() {
+    this.strage.clear();
+    this.tasks = {count: 0, taskArray: []};
   }
 }
-window.onload = function () {
-};
 
+class TaskController {
+  constructor() {
+    self = this;
+    this.taskStrage = new TaskStrage();
+    this.taskView = new TaskView();
+    this.taskView.show(this.taskStrage.tasks.taskArray);
+    this.textView = document.getElementById("text");
+    document.getElementById("record").addEventListener('click', this.record);
+    document.getElementById("clear").addEventListener('click', this.clearAll);
+    document.getElementById("text").addEventListener('keypress', this.keyPress);
+  }
+
+  record() {
+    var time = document.getElementById("time").textContent;
+    var text = document.getElementById("text").value;
+    self.taskStrage.addTask({time:time, content:text});
+    self.taskView.show.call(self.taskView, self.taskStrage.tasks.taskArray);
+    self.textView.value="";
+  }
+
+  clearAll() {
+    self.taskStrage.clearAll.call(self.taskStrage);
+    self.taskView.clearAll.call(self.taskView);
+  }
+
+  keyPress(event) {
+    if (event.key === "Enter") {
+      self.record();
+      self.textView.value="";
+    }
+  }
+}
+
+class TaskView {
+  constructor() {
+    this.taskContainer = document.getElementById("task");
+  }
+
+  show(taskArray) {
+    this.taskContainer.innerHTML = taskArray.map(function(item){return `<li><time>${item.time}</time>${item.content}</li>`}).join('\n');
+  }
+
+  clearAll() {
+    this.taskContainer.textContent='';
+  }
+}
