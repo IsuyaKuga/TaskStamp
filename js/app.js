@@ -32,7 +32,7 @@ class TaskController {
     self = this;
     this.taskStrage = new TaskStrage();
     this.taskView = new TaskView();
-    this.taskView.show(this.taskStrage.tasks.taskArray);
+    this.taskView.createListFromTaskArray(this.taskStrage.tasks.taskArray);
     this.textView = document.getElementById("text");
     document.getElementById("record").addEventListener('click', this.record);
     document.getElementById("clear").addEventListener('click', this.clearAll);
@@ -43,7 +43,10 @@ class TaskController {
     var time = document.getElementById("time").textContent;
     var text = document.getElementById("text").value;
     self.taskStrage.addTask({time:time, content:text});
-    self.taskView.show.call(self.taskView, self.taskStrage.tasks.taskArray);
+
+    self.taskView.createListFromTaskArray.call(self.taskView, self.taskStrage.tasks.taskArray);
+    self.taskView.setListener="";
+
     self.textView.value="";
   }
 
@@ -58,18 +61,29 @@ class TaskController {
       self.textView.value="";
     }
   }
+
+  taskClick(li) {
+  }
 }
 
 class TaskView {
   constructor() {
-    this.taskContainer = document.getElementById("task");
+    this.$ul = document.getElementById("task");
   }
 
-  show(taskArray) {
-    this.taskContainer.innerHTML = taskArray.map(function(item){return `<li><time>${item.time}</time>${item.content}</li>`}).join('\n');
+  createListFromTaskArray(taskArray) {
+    let fragment = document.createDocumentFragment();
+    taskArray.forEach( (task) => {
+      let $li = document.createElement('li');
+      $li.innerHTML = `<time>${task.time}</time>${task.content}`;
+      $li.setAttribute('id', `task${task.id}`);
+      fragment.appendChild($li);
+    })
+    this.$ul.textContent='';
+    this.$ul.appendChild(fragment);
   }
 
   clearAll() {
-    this.taskContainer.textContent='';
+    this.$ul.textContent='';
   }
 }
