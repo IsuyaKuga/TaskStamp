@@ -32,8 +32,9 @@ class TaskController {
     self = this;
     this.taskStrage = new TaskStrage();
     this.taskView = new TaskView();
-    this.taskView.createListFromTaskArray(this.taskStrage.tasks.taskArray);
+    this.taskView.createListFromTaskArray.call(this.taskView, this.taskStrage.tasks.taskArray, this.taskClick);
     this.textView = document.getElementById("text");
+    this.selectedTask = null;
     document.getElementById("record").addEventListener('click', this.record);
     document.getElementById("clear").addEventListener('click', this.clearAll);
     document.getElementById("text").addEventListener('keypress', this.keyPress);
@@ -44,8 +45,7 @@ class TaskController {
     var text = document.getElementById("text").value;
     self.taskStrage.addTask({time:time, content:text});
 
-    self.taskView.createListFromTaskArray.call(self.taskView, self.taskStrage.tasks.taskArray);
-    self.taskView.setListener="";
+    self.taskView.createListFromTaskArray.call(self.taskView, self.taskStrage.tasks.taskArray, self.taskClick);
 
     self.textView.value="";
   }
@@ -62,7 +62,8 @@ class TaskController {
     }
   }
 
-  taskClick(li) {
+  taskClick(event) {
+    self.selectedTask = event.target.getAttribute('id');
   }
 }
 
@@ -71,12 +72,13 @@ class TaskView {
     this.$ul = document.getElementById("task");
   }
 
-  createListFromTaskArray(taskArray) {
+  createListFromTaskArray(taskArray, listener) {
     let fragment = document.createDocumentFragment();
     taskArray.forEach( (task) => {
       let $li = document.createElement('li');
       $li.innerHTML = `<time>${task.time}</time>${task.content}`;
       $li.setAttribute('id', `task${task.id}`);
+      $li.addEventListener('click', listener);
       fragment.appendChild($li);
     })
     this.$ul.textContent='';
