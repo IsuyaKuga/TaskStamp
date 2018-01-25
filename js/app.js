@@ -14,9 +14,9 @@ class TaskStrage {
   }
 
   addTask(args) {
-    var time = args.time;
-    content = args.content;
-    var count = this.tasks.count++;
+    let time = args.time;
+    let content = args.content;
+    let count = this.tasks.count++;
     this.tasks.taskArray.unshift({id: count, time: time, content: content});
     this.strage.setItem('tasks', JSON.stringify(this.tasks));
   }
