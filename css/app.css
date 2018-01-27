@@ -50,7 +50,7 @@ input {
   display: flex
 }
 
-#recordInputBox #text {
+#recordInputBox > #text {
   display: inline;
   flex: 1;
 }
@@ -60,12 +60,12 @@ input {
   flex-flow: column nowrap; 
 }
 
-#editInputBox #time {
+#editInputBox > #time {
   display: inline;
   flex: 1;
 }
 
-#editInputBox #edit{
+#editInputBox > #edit{
   display: inline;
   flex: 3;
 }
@@ -82,7 +82,7 @@ ul {
   display: block;
 }
 
-ul li {
+ul > li {
   color: white;
   background: #81d0cb;
   line-height: 1.5;
@@ -92,9 +92,10 @@ ul li {
   list-style-type: none!important;
   font-weight: bold;
   display: block;
+  word-wrap: break-word;
 }
 
-ul li:before {
+ul > li:before {
   font-family: FontAwesome;
   content: "\02710";
   position: absolute;
@@ -102,7 +103,7 @@ ul li:before {
   color: white;
 }
 
-ul li.selected {
+ul > li.selected {
   background: #00c0cb;
   border-style: double;
 }
