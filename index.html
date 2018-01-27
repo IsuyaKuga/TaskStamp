@@ -12,13 +12,30 @@
 </style>
 </head>
 <body>
-  <h1 id="time"></h1>
-  <div id="main">
-    <div id="buttons">
-      <button type=button id="record">record</button>
-      <button type=button id="clear">clear</button>
+  <header>
+    <h1 id="time"></h1>
+    <div id="recordBox">
+      <div id="buttons" class="buttons">
+        <button type=button id="record">record</button>
+        <button type=button id="clear">clear</button>
+      </div>
+      <div id="recordInputBox">
+        <input id="text" type="text">
+      </div>
     </div>
-    <input id="text" type="text">
+    <div id="editBox">
+      <div id="editButtons" class="buttons">
+        <button type=button id="save">save</button>
+        <button type=button id="delete">delete</button>
+        <button type=button id="cancel">cancel</button>
+      </div>
+      <div id="editInputBox">
+        <input id="editTime" type="text">
+        <input id="editContent" type="text">
+      </div>
+    </div>
+  </header>
+  <div id="main">
     <ul id="task"></ul>
   </div>
 </body>

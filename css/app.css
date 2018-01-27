@@ -1,12 +1,25 @@
-body {
-  width: 100%;
-  background-color: #FFFFFF;
+* {
   margin: 0;
-  border: 0;
   padding: 0;
 }
 
-.main {
+html, body {
+  width: 100%;
+  height: 100%;
+  background-color: #FFFFFF;
+}
+
+header {
+  background-color: #FFFFFF;
+  position: fixed;
+  top 0;
+  left 0;
+  width: 100%;
+  height: 105px;
+}
+
+#main {
+  padding-top: 105px;
   width: 100%;
 }
 
@@ -20,20 +33,41 @@ h1 {
   line-height: 1.5;
 }
 
-#buttons {
+.buttons {
   display: flex
 }
 
-button {
-  width: 50%;
+.buttons button {
   display: inline;
   flex: 1;
 }
 
 input {
-  width: 100%;
-  display: block;
   box-sizing: border-box;
+}
+
+#recordInputBox {
+  display: flex
+}
+
+#recordInputBox #text {
+  display: inline;
+  flex: 1;
+}
+
+#editInputBox {
+  display: flex;
+  flex-flow: column nowrap; 
+}
+
+#editInputBox #time {
+  display: inline;
+  flex: 1;
+}
+
+#editInputBox #edit{
+  display: inline;
+  flex: 3;
 }
 
 time {
@@ -56,15 +90,19 @@ ul li {
   border-bottom: 2px solid white;
   margin: 0;
   list-style-type: none!important;
-  font-weight: bold; /*好みで太字に*/
+  font-weight: bold;
   display: block;
 }
 
-ul li:before {/*疑似要素*/
+ul li:before {
   font-family: FontAwesome;
   content: "\02710";
   position: absolute;
-  left : 0.5em; /*左端からのアイコンまでの距離*/
-  color: white; /*アイコン色*/
+  left : 0.5em;
+  color: white;
 }
 
+ul li.selected {
+  background: #00c0cb;
+  border-style: double;
+}
