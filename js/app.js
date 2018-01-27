@@ -3,7 +3,7 @@ window.addEventListener('DOMContentLoaded', function() {
   let time = ()=>document.getElementById("time").innerHTML = (new Date).toLocaleTimeString();
   time();
   setInterval(time,1000);
-  var taskController = new TaskController();
+  let taskController = new TaskController();
 });
 
 class TaskStrage {
@@ -43,11 +43,10 @@ class TaskController {
     this.taskStrage = new TaskStrage();
     this.taskView = new TaskView();
     this.taskView.createListFromTaskArray.call(this.taskView, this.taskStrage.tasks.taskArray, this.taskClick);
-    this.textView = document.getElementById("text");
-    this.editBox = document.getElementById("editBox");
-    this.editBox.style.display = "none";
-    this.recordBox = document.getElementById("recordBox");
-    this.selectedTask = null;
+    this.$editBox = document.getElementById("editBox");
+    this.$editBox.style.display = "none";
+    this.$recordBox = document.getElementById("recordBox");
+    this.$selectedTask = null;
     document.getElementById("record").addEventListener('click', this.record);
     document.getElementById("text").addEventListener('keypress', this.keyPressRecord);
     document.getElementById("clear").addEventListener('click', this.clearAll);
@@ -63,13 +62,13 @@ class TaskController {
     let text = document.getElementById("text").value;
     self.taskStrage.addTask({time:time, content:text});
     self.taskView.createListFromTaskArray.call(self.taskView, self.taskStrage.tasks.taskArray, self.taskClick);
-    self.textView.value="";
+    document.getElementById("text").value="";
   }
 
   keyPressRecord(event) {
     if (event.key === "Enter") {
       self.record();
-      self.textView.value="";
+      document.getElementById("text").value="";
     }
   }
 
@@ -81,15 +80,14 @@ class TaskController {
   saveTask() {
     let time = document.getElementById("editTime").value;
     let content = document.getElementById("editContent").value;
-    self.selectedTask.innerHTML = `<time>${time}</time>${content}`;
-    self.taskStrage.editTask({id: parseInt(self.selectedTask.id), time: time, content: content});
-    self.textView.value="";
+    self.$selectedTask.innerHTML = `<time>${time}</time>${content}`;
+    self.taskStrage.editTask({id: parseInt(self.$selectedTask.id), time: time, content: content});
+    self.cancel();
   }
 
   keyPressSave(event) {
     if (event.key === "Enter") {
       self.saveTask();
-      self.textView.value="";
     }
   }
 
@@ -97,27 +95,27 @@ class TaskController {
   }
 
   cancel() {
-    self.selectedTask.removeAttribute("class");
-    self.selectedTask = null;
-    self.editBox.style.display = "none";
-    self.recordBox.style.display = "block";
+    self.$selectedTask.removeAttribute("class");
+    self.$selectedTask = null;
+    self.$editBox.style.display = "none";
+    self.$recordBox.style.display = "block";
   }
 
   taskClick(event) {
     let match = event.currentTarget.innerHTML.match(/<time>(.*)<\/time>(.*)/);
     document.getElementById("editTime").value = match[1];
     document.getElementById("editContent").value = match[2];
-    if (self.selectedTask === event.currentTarget) {
+    if (self.$selectedTask === event.currentTarget) {
       self.cancel();
-    } else if (self.selectedTask) {
-      self.selectedTask.removeAttribute("class");
-      self.selectedTask = event.currentTarget;
-      self.selectedTask.setAttribute("class", "selected");
+    } else if (self.$selectedTask) {
+      self.$selectedTask.removeAttribute("class");
+      self.$selectedTask = event.currentTarget;
+      self.$selectedTask.setAttribute("class", "selected");
     } else {
-      self.selectedTask = event.currentTarget;
-      self.selectedTask.setAttribute("class", "selected");
-      self.editBox.style.display = "block";
-      self.recordBox.style.display = "none";
+      self.$selectedTask = event.currentTarget;
+      self.$selectedTask.setAttribute("class", "selected");
+      self.$editBox.style.display = "block";
+      self.$recordBox.style.display = "none";
     }
   }
 }
