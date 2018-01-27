@@ -31,6 +31,14 @@ class TaskStrage {
     this.strage.setItem('tasks', JSON.stringify(this.tasks));
   }
 
+  deleteTask(args) {
+    let id = args.id;
+    this.tasks.taskArray.forEach(
+      (task,i)=>{if(task.id === id) this.tasks.taskArray.splice(i,1);return;});
+    this.strage.setItem('tasks', JSON.stringify(this.tasks));
+  }
+
+
   clearAll() {
     this.strage.clear();
     this.tasks = {count: 0, taskArray: []};
@@ -92,6 +100,11 @@ class TaskController {
   }
 
   deleteTask() {
+    self.taskStrage.deleteTask({id: parseInt(self.$selectedTask.id)});
+    self.$selectedTask.remove();
+    self.$selectedTask = null;
+    self.$editBox.style.display = "none";
+    self.$recordBox.style.display = "block";
   }
 
   cancel() {
