@@ -68,7 +68,7 @@ class TaskController {
   record() {
     let time = document.getElementById("time").textContent;
     let text = document.getElementById("text").value;
-    self.taskStrage.addTask({time:time, content:text});
+    self.taskStrage.addTask.call(self.taskStrage, ({time:time, content:text});
     self.taskView.createListFromTaskArray.call(self.taskView, self.taskStrage.tasks.taskArray, self.taskClick);
     document.getElementById("text").value="";
   }
@@ -89,7 +89,7 @@ class TaskController {
     let time = document.getElementById("editTime").value;
     let content = document.getElementById("editContent").value;
     self.$selectedTask.innerHTML = `<time>${time}</time>${content}`;
-    self.taskStrage.editTask({id: parseInt(self.$selectedTask.id), time: time, content: content});
+    self.taskStrage.editTask.call(self.taskStrage, {id: parseInt(self.$selectedTask.id), time: time, content: content});
     self.cancel();
   }
 
