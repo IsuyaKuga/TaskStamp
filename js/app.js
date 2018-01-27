@@ -25,7 +25,7 @@ class TaskStrage {
     let id = args.id;
     let time = args.time;
     let content = args.content;
-    task = this.tasks.taskArray.find((task)=> task.id === id);
+    let task = this.tasks.taskArray.find((task)=> task.id === id);
     task.time = time;
     task.content = content;
     this.strage.setItem('tasks', JSON.stringify(this.tasks));
@@ -68,7 +68,7 @@ class TaskController {
   record() {
     let time = document.getElementById("time").textContent;
     let text = document.getElementById("text").value;
-    self.taskStrage.addTask.call(self.taskStrage, ({time:time, content:text});
+    self.taskStrage.addTask.call(self.taskStrage, ({time:time, content:text}));
     self.taskView.createListFromTaskArray.call(self.taskView, self.taskStrage.tasks.taskArray, self.taskClick);
     document.getElementById("text").value="";
   }
